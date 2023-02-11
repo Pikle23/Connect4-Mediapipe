@@ -2,6 +2,7 @@ import numpy as np
 import pygame
 import sys
 import math
+from hand_detection import HandDetection
 
 BLUE = (0,0,255)
 BLACK = (0,0,0)
@@ -91,82 +92,82 @@ pygame.display.update()
 
 myfont = pygame.font.SysFont("monospace", 75)
 
+hand_detection = HandDetection(width, height)
+
+last_hand_pos = (0, 0)
+last_hand_closed = False
+
 while not game_over:
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit()
-"""
-		if event.type == pygame.MOUSEMOTION:
-			pygame.draw.rect(screen, BLACK, (0,0, width, SQUARESIZE))
-			posx = event.pos[0]
-			if turn == 0:
-				pygame.draw.circle(screen, RED, (posx, int(SQUARESIZE/2)), RADIUS)
-			else: 
-				pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE/2)), RADIUS)
-		pygame.display.update()
-
-		if event.type == pygame.MOUSEBUTTONDOWN:
-			pygame.draw.rect(screen, BLACK, (0,0, width, SQUARESIZE))
-			#print(event.pos)
-			# Ask for Player 1 Input
-			if turn == 0:
-				posx = event.pos[0]
-				col = int(math.floor(posx/SQUARESIZE))
-
-				if is_valid_location(board, col):
-					row = get_next_open_row(board, col)
-					drop_piece(board, row, col, 1)
-
-					if winning_move(board, 1):
-						label = myfont.render("Player 1 wins!!", 1, RED)
-						screen.blit(label, (40,10))
-						game_over = True
-
-
-			# # Ask for Player 2 Input
-			else:				
-				posx = event.pos[0]
-				col = int(math.floor(posx/SQUARESIZE))
-
-				if is_valid_location(board, col):
-					row = get_next_open_row(board, col)
-					drop_piece(board, row, col, 2)
-
-					if winning_move(board, 2):
-						label = myfont.render("Player 2 wins!!", 1, YELLOW)
-						screen.blit(label, (40,10))
-						game_over = True
-
-			print_board(board)
-			draw_board(board)
-
-			turn += 1
-			turn = turn % 2
-
-			if game_over:
-				pygame.time.wait(3000)
-"""
-
 
 	# detect hands
- 
+	hand_detection.detect()
+
 	# detect hand motion
- 
- 	# detect hand closed aka mouseclick
-	# wenn hand vorher offen war und jetzt geschlossn
-	# -> dann mache mousedown
-	
-	# else
- 
-  
-"""
-  print_board(board)
-			draw_board(board)
+	hand_pos = hand_detection.hand_pos
+	if hand_pos != last_hand_pos:
+		print("hand moved " + str(hand_pos))
+		last_hand_pos = hand_pos
+		pygame.draw.rect(screen, BLACK, (0,0, width, SQUARESIZE))
+		posx = hand_pos[0]
+		if turn == 0:
+			pygame.draw.circle(screen, RED, (posx, int(SQUARESIZE/2)), RADIUS)
+		else: 
+			pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE/2)), RADIUS)
 
-			turn += 1
-			turn = turn % 2
+	pygame.display.update()
 
-			if game_over:
-				pygame.time.wait(3000)
-"""
+	# detect hand closed aka mouseclick
+	hand_closed = hand_detection.hand_closed
+	if last_hand_closed == False and hand_closed == True:
+		print("hand closed")
+		pygame.draw.rect(screen, BLACK, (0,0, width, SQUARESIZE))
+		#print(event.pos)
+		# Ask for Player 1 Input
+		if turn == 0:
+			posx = hand_pos[0]
+			col = int(math.floor(posx/SQUARESIZE))
+
+			if is_valid_location(board, col):
+				row = get_next_open_row(board, col)
+				drop_piece(board, row, col, 1)
+
+				if winning_move(board, 1):
+					label = myfont.render("Player 1 wins!!", 1, RED)
+					screen.blit(label, (40,10))
+					game_over = True
+
+		# # Ask for Player 2 Input
+		else:				
+			posx = hand_pos[0]
+			col = int(math.floor(posx/SQUARESIZE))
+
+			if is_valid_location(board, col):
+				row = get_next_open_row(board, col)
+				drop_piece(board, row, col, 2)
+
+				if winning_move(board, 2):
+					label = myfont.render("Player 2 wins!!", 1, YELLOW)
+					screen.blit(label, (40,10))
+					game_over = True
+
+		
+
+		print_board(board)
+		draw_board(board)
+
+		turn += 1
+		turn = turn % 2
+
+
+		if game_over:
+			pygame.time.wait(3000)
+
+	last_hand_closed = hand_closed
+
+	hand_detection.show_image()	
+
+

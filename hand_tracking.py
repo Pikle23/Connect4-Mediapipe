@@ -1,12 +1,11 @@
 import cv2
 import mediapipe as mp
-from settings import *
 import numpy as np
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
-
+SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 
 class HandTracking:
     def __init__(self):
@@ -15,14 +14,19 @@ class HandTracking:
         self.hand_y = 0
         self.results = None
         self.hand_closed = False
+        self.screen_with = SCREEN_WIDTH
+        self.screen_height = SCREEN_HEIGHT
 
+    def set_screensize(self, width, height):
+        self.screen_with = width
+        self.screen_height = height
 
     def scan_hands(self, image):
         rows, cols, _ = image.shape
 
         # Flip the image horizontally for a later selfie-view display, and convert
         # the BGR image to RGB.
-        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+        #image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.
         image.flags.writeable = False
@@ -38,8 +42,8 @@ class HandTracking:
             for hand_landmarks in self.results.multi_hand_landmarks:
                 x, y = hand_landmarks.landmark[9].x, hand_landmarks.landmark[9].y
 
-                self.hand_x = int(x * SCREEN_WIDTH)
-                self.hand_y = int(y * SCREEN_HEIGHT)
+                self.hand_x = int(x * self.screen_with)
+                self.hand_y = int(y * self.screen_height)
 
                 x1, y1 = hand_landmarks.landmark[12].x, hand_landmarks.landmark[12].y
 
