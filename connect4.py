@@ -3,7 +3,6 @@ import pygame
 import sys
 import math
 
-# Test 2
 BLUE = (0,0,255)
 BLACK = (0,0,0)
 RED = (255,0,0)
@@ -97,7 +96,7 @@ while not game_over:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit()
-
+"""
 		if event.type == pygame.MOUSEMOTION:
 			pygame.draw.rect(screen, BLACK, (0,0, width, SQUARESIZE))
 			posx = event.pos[0]
@@ -147,3 +146,27 @@ while not game_over:
 
 			if game_over:
 				pygame.time.wait(3000)
+"""
+
+
+	# detect hands
+ 
+	# detect hand motion
+ 
+ 	# detect hand closed aka mouseclick
+	# wenn hand vorher offen war und jetzt geschlossn
+	# -> dann mache mousedown
+	
+	# else
+ 
+  
+"""
+  print_board(board)
+			draw_board(board)
+
+			turn += 1
+			turn = turn % 2
+
+			if game_over:
+				pygame.time.wait(3000)
+"""
