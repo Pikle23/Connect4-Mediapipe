@@ -26,7 +26,7 @@ class HandTracking:
 
         # Flip the image horizontally for a later selfie-view display, and convert
         # the BGR image to RGB.
-        #image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
         # To improve performance, optionally mark the image as not writeable to
         # pass by reference.
         image.flags.writeable = False
@@ -66,8 +66,6 @@ class HandTracking:
         cv2.imshow("image", self.image)
         cv2.waitKey(1)
 
-    def is_hand_closed(self):
 
-        pass
 
 
