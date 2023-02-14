@@ -3,7 +3,7 @@ import pygame
 import sys
 import math
 from hand_detection import HandDetection
-from . import hand_detection
+
 
 BLUE = (0,0,255)
 BLACK = (0,0,0)
@@ -126,6 +126,7 @@ while not game_over:
 	if last_hand_closed == False and hand_closed == True:
 		print("hand closed")
 		pygame.draw.rect(screen, BLACK, (0,0, width, SQUARESIZE))
+  
 		#print(event.pos)
 		# Ask for Player 1 Input
 		if turn == 0:
