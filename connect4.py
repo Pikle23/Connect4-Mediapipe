@@ -3,6 +3,7 @@ import pygame
 import sys
 import math
 from hand_detection import HandDetection
+from . import hand_detection
 
 BLUE = (0,0,255)
 BLACK = (0,0,0)

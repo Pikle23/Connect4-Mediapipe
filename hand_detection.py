@@ -1,5 +1,6 @@
 from hand_tracking import HandTracking
 import cv2
+from . import hand_tracking
 
 
 class HandDetection:
